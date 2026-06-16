@@ -282,28 +282,19 @@ def init_session():
         "step5_done": False,
         "step6_done": False,
         # Step 1
-        "rho_s": 0.0,
-        "mu_s": 0.0,
+        "rho_s": 2330.0,
+        "mu_s": 0.0004.0,
         "rho_l": 1000.0,
         "Cw":    0.25,
         "mu_l":  0.001,
         "d50":   36.3e-6,
-        "Cv": 0.0,
-        "mu_mf": 0.0,
-        "rho_mf": 0.0,
+        "Cv": 0.25,
+        "mu_mf": 1.02,
+        "rho_mf": 1166.0,
          # Step 2
-        "pipe_length": 0.0,
-        "D_pipe": 0.0,
-        "Vm": 0.0,
-        "rho_m": 0.0,
-        "mu_m": 0.0,
-        "Q": 0.0, 
-         # Step 3 results stored
-        "pc_m": 0.0,
-        "pc_mf": 0.0,
-        "Cvf_final": 0.0,
-        "fi_total": 0.0,
-        "h_m": 0.0,
+        "pipe_length": 3887.0,
+        "Q": 250.0, 
+         
 
 
     }
