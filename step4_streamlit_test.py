@@ -283,14 +283,14 @@ def init_session():
         "step6_done": False,
         # Step 1
         "rho_s": 2330.0,
-        "mu_s": 0.0004.0,
+        "mu_s": 0.0014,
         "rho_l": 1000.0,
         "Cw":    0.25,
         "mu_l":  0.001,
         "d50":   36.3e-6,
         "Cv": 0.25,
-        "mu_mf": 1.02,
-        "rho_mf": 1166.0,
+        "mu_mf": 0.0016,
+        "rho_mf": 1166.5,
          # Step 2
         "pipe_length": 3887.0,
         "Q": 250.0, 
