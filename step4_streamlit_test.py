@@ -1183,7 +1183,6 @@ def render_step1():
         if st.button("SAVE & CONTINUE →", key="s1_save", use_container_width=True):
             st.session_state.rho_m = rho_m
             st.session_state.Cv = Cv
-            st.session_state.Q = st.session_state.Q 
             st.session_state.step1_done = True
             st.session_state.current_step = 2
             st.rerun()
