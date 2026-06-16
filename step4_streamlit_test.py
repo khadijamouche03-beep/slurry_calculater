@@ -284,6 +284,7 @@ def init_session():
         
         # --- Step 1: Slurry Properties (Valeurs par défaut cohérentes) ---
         "rho_s": 2330.0,    # Densité solide
+        "mu_s": 0.0014,
         "rho_l": 1000.0,    # Densité liquide (eau)
         "Cw": 0.25,         # Concentration massique (25%)
         "mu_l": 0.001,      # Viscosité eau (1 mPa.s)
