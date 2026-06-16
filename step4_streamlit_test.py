@@ -281,29 +281,44 @@ def init_session():
         "step4_done": False,
         "step5_done": False,
         "step6_done": False,
-        # Step 1
-        "rho_s": 2330.0,
-        "mu_s": 0.0014,
-        "rho_l": 1000.0,
-        "Cw":    0.25,
-        "mu_l":  0.001,
-        "d50":   36.3e-6,
-        "Cv": 0.25,
-        "mu_mf": 0.0016,
-        "rho_mf": 1166.5,
-         # Step 2
+        
+        # --- Step 1: Slurry Properties (Valeurs par défaut cohérentes) ---
+        "rho_s": 2330.0,    # Densité solide
+        "rho_l": 1000.0,    # Densité liquide (eau)
+        "Cw": 0.25,         # Concentration massique (25%)
+        "mu_l": 0.001,      # Viscosité eau (1 mPa.s)
+        "d50": 36.3e-6,     # Taille particule (36 microns)
+        
+        # --- Step 2: Hydraulic Parameters ---
         "pipe_length": 3887.0,
-        "Q": 250.0, 
-         
-
-
+        "Q": 350.0,         # Changé 0.0 -> 350.0 (Débit par défaut pour éviter le crash)
+        "Vm": 2.5,          # Vitesse moyenne par défaut
+        "D": 0.2032,        # Diamètre par défaut (ex: 8 inches)
+        
+        # --- Variables de calcul (On les initialise à des valeurs minimes pour éviter div/0) ---
+        "rho_m": 1166.5,
+        "mu_m": 0.0014,
+        "Cv": 0.125,        # Concentration volumique
+        "rho_mf": 1166.5,
+        "mu_mf": 0.0016,
+        
+        # --- Step 3 & 4 Results ---
+        "pc_m": 0.001,      # Éviter 0 absolu
+        "pc_mf": 0.001,
+        "Cvf_final": 0.1,
+        "fi_total": 0.0,
+        "h_m": 0.0,
+        
+        # --- Step 5: Topology ---
+        "topo_data": None    # Pour stocker le profil topographique
     }
+    
     for k, v in defaults.items():
         if k not in st.session_state:
             st.session_state[k] = v
 
+# N'oubliez pas d'appeler la fonction
 init_session()
-
 
 def slurry_density(rho_s, rho_l, Cw):
     """Mixture density by volume concentration."""
@@ -1172,8 +1187,13 @@ def render_step1():
     col_a, col_b = st.columns([3, 1])
     with col_b:
         if st.button("SAVE & CONTINUE →", key="s1_save", use_container_width=True):
-            st.session_state.rho_m = rho_m
-            st.session_state.Cv = Cv
+            if st.session_state.rho_m <= 1000:
+                st.error("La densité solide doit être supérieure à la densité du liquide !")
+            if st.session_state.Cv > 0.20:
+                st.error("La concentration ne doit pas dépasser la limite newtonienne !")
+            if st.session_state.Q <= 0 :
+                st.error("Le débit (Flow) ne peut pas être nul.")
+            
             st.session_state.step1_done = True
             st.session_state.current_step = 2
             st.rerun()
