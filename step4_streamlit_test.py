@@ -292,7 +292,7 @@ def init_session():
         
         # --- Step 2: Hydraulic Parameters ---
         "pipe_length": 3887.0,
-        "Q": 350.0,         # Changé 0.0 -> 350.0 (Débit par défaut pour éviter le crash)
+        "Q": 250.0,         # Changé 0.0 -> 350.0 (Débit par défaut pour éviter le crash)
         "Vm": 2.5,          # Vitesse moyenne par défaut
         "D": 0.2032,        # Diamètre par défaut (ex: 8 inches)
         
