@@ -1190,14 +1190,16 @@ def render_step1():
         if st.button("SAVE & CONTINUE →", key="s1_save", use_container_width=True):
             if st.session_state.rho_m <= 1000:
                 st.error("La densité solide doit être supérieure à la densité du liquide !")
-            if st.session_state.Cv > 0.20:
+            if st.session_state.Cw > 0.25:
                 st.error("La concentration ne doit pas dépasser la limite newtonienne !")
             if st.session_state.Q <= 0 :
                 st.error("Le débit (Flow) ne peut pas être nul.")
-            
-            st.session_state.step1_done = True
-            st.session_state.current_step = 2
-            st.rerun()
+            st.session_state.Cv 
+            else : 
+                st.session_state.Cv = Cv 
+                st.session_state.step1_done = True
+                st.session_state.current_step = 2
+                st.rerun()
 
 # ─────────────────────────────────────────────
 #  STEP 2 – CRITICAL VELOCITY & PIPE DIAMETER
