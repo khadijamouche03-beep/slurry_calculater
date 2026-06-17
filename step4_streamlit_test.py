@@ -486,17 +486,7 @@ def calculate_wasp_losses(D_pipe, Vm, rho_l, rho_s, mu_l, Cv, di, mi, k_rug, p_s
 
     def fm_function(k_rug, D_pipe, Re_mf):
         """Calcule le facteur de friction f_m (Colebrook-White)."""
-        if 1e-6 <= k_rug/D_pipe <= 1e-2 and 5e3 < Re_mf < 1e8:
-            return 0.33125 / (math.log10(k_rug/(3.7 * D_pipe)) + 5.74/(Re_mf**0.9))**2
-        else:
-            fm = 0.02
-            for _ in range(100):
-                try:
-                    fm_new = (-2 * math.log10((k_rug/(3.7 * D_pipe)) + 2.51 / (Re_mf * math.sqrt(fm))))**-2
-                    if abs(fm_new - fm) < 1e-9: return fm_new
-                    fm = fm_new
-                except: return fm
-            return fm
+        return 0.33125 / (math.log10(k_rug/(3.7 * D_pipe)) + 5.74/(Re_mf**0.9))**2
 
     def beta_value_function(rho_l, Vm, D_pipe, mu_l):
         # Reynolds particule approché pour l'exposant Beta
