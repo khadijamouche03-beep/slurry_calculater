@@ -579,7 +579,7 @@ def calculate_wasp_losses(D_pipe, Vm, rho_l, rho_s, mu_l, Cv, di, mi, k_rug, p_s
     rho_v = rho_l * (1 + (rho_s - rho_l) * Cvf_current / rho_l)
     mu_v = mu_l * (1 + 2.5*Cvf_current + 10.5*Cvf_current**2 + 0.00273*math.exp(16.6*Cvf_current))
     Re_v = (rho_v * Vm * D_pipe) / mu_v
-    lambda_v = 1.325 / math.log((k_rug/3.7*D_pipe) + (5.75/Re_v**0.9))
+    lambda_v = 1.325 / (math.log10(k_rug/(3.7*D_pipe)) + 5.75/(Re_v**0.9))**2
     u_et = math.sqrt(abs(lambda_v) / 8) * Vm
 
     # Alpha et Cvs_vi
@@ -594,7 +594,7 @@ def calculate_wasp_losses(D_pipe, Vm, rho_l, rho_s, mu_l, Cv, di, mi, k_rug, p_s
     rsdv = (rho_s - rho_l) / rho_l
     for dm in di_m:
         # Vtv_i formula
-        val_vtv = (10 * nu_v* (math.sqrt(1 + (rsdv * g * dm**3)/100 * nu_v) - 1))/ dm
+        val_vtv = (10 * nu_v* (math.sqrt(1 + rsdv * g * dm**3/(100 * nu_v)) - 1))/ dm
         list_vtv_i.append(val_vtv)
 
     list_inv_sqrt_cdi = [v / math.sqrt(g * dm) for v, dm in zip(list_vtv_i, di_m)]
