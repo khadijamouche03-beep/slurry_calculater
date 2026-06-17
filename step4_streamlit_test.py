@@ -1194,7 +1194,6 @@ def render_step1():
                 st.error("La concentration ne doit pas dépasser la limite newtonienne !")
             if st.session_state.Q <= 0 :
                 st.error("Le débit (Flow) ne peut pas être nul.")
-            st.session_state.Cv 
             else : 
                 st.session_state.Cv = Cv 
                 st.session_state.step1_done = True
