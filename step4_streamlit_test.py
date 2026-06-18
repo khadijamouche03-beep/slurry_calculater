@@ -2289,7 +2289,7 @@ def render_step6():
     
     st.session_state['p_start'] = p_start_val
     st.session_state['p_final'] = p_final_val
-    st.session_state['Z_start"] = Z_start
+    st.session_state['Z_start'] = Z_start
     st.session_state['Z_end'] = Z_end
     
     st.markdown("### 📍 Conditions aux extrémités")
