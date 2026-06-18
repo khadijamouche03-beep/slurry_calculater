@@ -1130,8 +1130,6 @@ def render_step1():
             section_header("Liquid Properties")
             st.number_input("Liquid Density ρₗ [kg/m³]", key="rho_l")
             st.number_input("Liquid Viscosity μₗ [Pa·s]", key="mu_l", format="%.5f")
-            st.number_input("Vehicle Viscosity μ_mf [Pa·s]", key="mu_mf", format="%.4f")
-            st.number_input("Vehicle Density ρ_mf [kg/m³]", key="rho_mf")
 
             #Calcul automatique de Cv 
             formula_box("ρ_m = 1 / Cw/rho_s + (1 - Cw) /rho_l")
@@ -1204,8 +1202,6 @@ def render_step2():
     mu_s = st.session_state.mu_s
     Cv    = st.session_state.Cv
     Cw = st.session_state.Cw
-    rho_mf = st.session_state.rho_mf
-    mu_mf = st.session_state.mu_mf
     mu_l  = st.session_state.mu_l
     d50   = st.session_state.d50
     Q = st.session_state.get('Q')
