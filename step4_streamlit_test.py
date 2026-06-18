@@ -1956,6 +1956,10 @@ def render_step5():
     # Pressure at each point
     P_profile = (HGL_profile - Z_profile) * rho_m * g / 1e5   # bar
     
+    st.session_state['p_start_val'] = float(P_profile[0])
+    st.session_state['p_final_val'] = float(P_profile[-1])
+    st.session_state['Z_start'] = float(Z_profile[0])
+    st.session_state['Z_end'] = float(Z_profile[-1])
     
     with st.expander("📊 Consulter le tableau des résultats détaillés (500 points)"):
         # On crée un DataFrame propre pour l'affichage
@@ -1986,6 +1990,7 @@ def render_step5():
             file_name='resultats_hgl_pression.csv',
             mime='text/csv',
         )
+
 
     st.markdown("---")
     # ── ② GRADIENT LINEAIRE J_linear_pur ─────────────────────────────
@@ -2281,8 +2286,6 @@ def render_step6():
     h_total = st.session_state.get('h_total')
     rho_m = st.session_state.get('rho_m')
     Q = st.session_state.get('Q') # en m3/h
-    p_start_val = float(P_profile[0])
-    p_final_val = float(P_profile[-1])
     HMT = st.session_state.get('HMT')
     
     p_start_val = st.session_state['p_start'] 
