@@ -889,13 +889,29 @@ def total_sing(elements, rho_m, Vm_default):
         total += dp_total_item
         
     return total
+def calculer_HMT_physique(hf_linear, h_m, Z_start, Z_end, p_final_bar, rho_m):
+    """
+    Calcule la HMT totale nécessaire pour vaincre les pertes et le dénivelé.
+    """
+    g = 9.81
+    
+    # Hauteur associée aux pertes totales
+    h_total = hf_linear + h_m
+    
+    # Hauteur associée au dénivelé (Géodésique)
+    delta_Z = Z_end - Z_start
+    h_pression_finale = (p_final_bar * 1e5) / (rho_m * g)
+    
+    # HMT Totale
+    HMT = delta_Z + h_total + h_pression_finale
+    
+    return HMT
 
-
-def pump_hydraulic_power(rho_m, g, Q, H_m):
+def pump_hydraulic_power(rho_m, g, Q, HMT):
     """P_hyd = ρ_mgQH  [W]"""
     Q_s = Q / 3600
     g = 9.81
-    return rho_m * g * Q_s * H_m / 1000   # Conversion de W en KW
+    return rho_m * g * Q_s * HMT / 1000   # Conversion de W en KW
 
 def pump_shaft_power(P_hyd, eta_pump):
     """Calcule la puissance sur l'arbre de la pompe (KW) """
@@ -2260,10 +2276,34 @@ def render_step6():
 
     # --- 1. RÉCUPÉRATION DES DONNÉES PRÉCÉDENTES ---
     # On récupère les valeurs calculées à l'étape 4 (ou valeurs par défaut pour test)
+    h_linear = st.session_state.get('hf_linear')
+    h_m = st.session_state.get('h_m')
     h_total = st.session_state.get('h_total')
     rho_m = st.session_state.get('rho_m')
     Q = st.session_state.get('Q') # en m3/h
+    Z_start = float(Z_profile[0])
+    Z_end   = float(Z_profile[-1])
+    p_start_val = float(P_profile[0])
+    p_final_val = float(P_profile[-1])
+    HMT = st.session_state.get('HMT')
     
+    st.session_state['p_start'] = p_start_val
+    st.session_state['p_final'] = p_final_val
+    st.session_state['Z_start"] = Z_start
+    st.session_state['Z_end'] = Z_end
+    
+    st.markdown("### 📍 Conditions aux extrémités")
+    col1, col2, col3, col4 = st.columns(4)
+    
+    with col1: st.metric("Altitude Départ", f"{Z_start:.2f} m")
+    with col2: st.metric("Pression Départ", f"{p_start_val:.3f} bar", delta="x = 0")
+    with col3: st.metric("Altitude Arrivée", f"{Z_end:.2f} m")
+    with col4:
+        delta_color = "normal" if p_final_val > 0 else "inverse"
+        st.metric("Pression Arrivée", f"{p_final_val:.3f} bar", delta="x = L", delta_color=delta_color)
+    if p_final_val < 0.2:
+        st.warning(f"⚠️ **Attention :** La pression à l'arrivée ({p_final_val:.3f} bar) est très faible ou négative. Risque de bouchage ou d'arrêt du flux.")
+
     st.info(f"💾 **Données de l'étude :** Débit = {Q} m³/h | HMT = {h_total:.2f} m | Densité = {rho_m} kg/m³")
 
     st.markdown("---")
@@ -2285,6 +2325,7 @@ def render_step6():
 
     # --- 3. CALCULS (Utilisation de vos fonctions moteur) ---
     # Calcul de la puissance hydraulique
+    HMT = calculer_HMT_physique(hf_linear, h_m, Z_start, Z_end, p_final_bar, rho_m)
     p_hyd_kw = pump_hydraulic_power(rho_m, 9.81, Q, h_total)
     
     # Calcul de la puissance à l'arbre
