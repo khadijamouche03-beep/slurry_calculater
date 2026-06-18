@@ -1210,7 +1210,7 @@ def render_step2():
     mu_m  = slurry_dynamic_viscosity(mu_l, Cv)
     
     Vc, D_pipe, Vm, model = calculate_critical_velocity_and_diameter(
-        Q, d50, rho_s, rho_l, rho_mf, mu_mf, Cv, mu_s
+        Q, d50, rho_s, rho_l, rho_m, mu_m, Cv, mu_s
     )
 
     col1, col2 = st.columns(2)
@@ -1343,7 +1343,6 @@ def render_step3():
     with col_g3:
         p_shape = st.selectbox("Particle Shape", ["Sphérique", "Non-sphérique"], index=1)
         mineral_choice == "Other (Manual input)"
-
 
         if p_shape == "Non-sphérique" :
             mineral_choice = st.selectbox(
