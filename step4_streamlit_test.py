@@ -300,8 +300,7 @@ def init_session():
         "rho_m": 1166.5,
         "mu_m": 0.0014,
         "Cv": 0.125,        # Concentration volumique
-        "rho_mf": 1166.5,
-        "mu_mf": 0.0016,
+       
         
         # --- Step 3 & 4 Results ---
         "pc_m": 0.001,      # Éviter 0 absolu
@@ -1030,11 +1029,10 @@ with st.sidebar:
               SYSTEM STATUS
             </div>
             ρ_s: {st.session_state.rho_s:.0f} kg/m³<br>
-            ρ_mf: {st.session_state.rho_mf:.0f} kg/m³<br>
             ρ_l: {st.session_state.rho_l:.0f} kg/m³<br>
             d₅₀: {st.session_state.d50*1000:.4f} mm<br>
 
-            μ_mf: {st.session_state.mu_mf:.4f} Pa·s<br>
+            
             μ_l: {st.session_state.mu_l:.4f} Pa·s<br>
             μ_s: {st.session_state.mu_s:.4f} Pa·s<br>
             ρ_mixture: {st.session_state.rho_m:.1f} kg/m³<br>
