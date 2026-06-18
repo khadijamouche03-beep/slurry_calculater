@@ -879,7 +879,11 @@ def total_sing(elements, rho_m, Vm_default):
         dp_total_item = dp_unitaire * qty
 
         # On stocke le résultat dans le dictionnaire pour l'affichage tableau
+        h_m_item = dp_total_item / (rho_m * g) if (rho_m * g) > 0 else 0
+        
         e["deltaP_total"] = dp_total_item
+        e["h_m_item"] = h_m_item
+        
 
         total += dp_total_item
         
@@ -1515,6 +1519,7 @@ def render_step4():
     V_default = st.session_state.get('Vm')
     rho_m = st.session_state.get('rho_m')
     hf_linear = st.session_state.get('hf_linear')
+    h_m = st.session_state.get('h_m')
     L = st.session_state.get('pipe_length')
             
     # Liste organisée avec headers
@@ -1648,9 +1653,7 @@ def render_step4():
                     st.rerun()
 
 
-    # Initialisation de h_m (perte singulière totale)
-    h_m = 0.0
-    
+    h_m = 0
     # Lancement du moteur de calcul si la liste n'est pas vide
     if len(st.session_state.accident_list) > 0:
         # On appelle votre fonction moteur total_sing
@@ -1671,14 +1674,14 @@ def render_step4():
             for i, e in enumerate(st.session_state.accident_list):
                 # Récupération de la perte calculée par le moteur pour cet élément
                 # On utilise e.get car deltaP_total est créé à l'intérieur de total_sing
-                val_h = e.get('deltaP_total', 0) / (rho_m * 9.81) if (rho_m * 9.81) > 0 else 0
+                val_h = e.get('h_m_item', 0.0) 
 
                 rows.append({
                     "ID": i + 1,
                     "Pos. (m)": f"{float(e['x']):.1f}",
                     "Accessory Type": e['label'],
                     "Qty": int(e['quantity']),
-                    "Loss (m)": f"{val_h:.3f}"
+                    "Loss (m)": f"{val_h:.4f}"
                 })
             # 2. Affichage du tableau professionnel (Remplace le Markdown)
             st.dataframe(
@@ -1690,7 +1693,7 @@ def render_step4():
                     "Pos. (m)": st.column_config.TextColumn("Position (m)", width="small"),
                     "Accessory Type": st.column_config.TextColumn("Accessory", width="large"),
                     "Qty": st.column_config.TextColumn("Quantity", width="small"),
-                    "Loss (m)": st.column_config.TextColumn("Unit Loss (m)", width="medium"),
+                    "Loss (m)": st.column_config.TextColumn("Total Loss (m)", width="medium"),
                 }
             )
             st.markdown("---")
@@ -1712,6 +1715,7 @@ def render_step4():
                 if st.button("❌ REMOVE SELECTED", use_container_width=True):
                     idx = int(item_to_del.split(".")[0]) - 1
                     st.session_state.accident_list.pop(idx)
+                    total_sing(st.session_state.accident_list, rho_m, V_default)
                     st.rerun()
 
 
@@ -1724,7 +1728,7 @@ def render_step4():
     # --- Cartes KPI et Graphique ---
     st.markdown(kpi_row([
         kpi_card(f"{h_m:.3f}", "m", "Singular Loss", "accent2"),
-        kpi_card(f"{h_total:.2f}", "m", "Total H", "success")
+        kpi_card(f"{h_total:.3f}", "m", "Total H", "success")
     ]), unsafe_allow_html=True)
 
     # Petit graphique croisé pour voir l'impact relatif des pertes
