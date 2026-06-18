@@ -2282,7 +2282,7 @@ def render_step6():
 
     # --- 1. RÉCUPÉRATION DES DONNÉES PRÉCÉDENTES ---
     # On récupère les valeurs calculées à l'étape 4 (ou valeurs par défaut pour test)
-    h_linear = st.session_state.get('hf_linear')
+    hf_linear = st.session_state.get('hf_linear')
     h_m = st.session_state.get('h_m')
     h_total = st.session_state.get('h_total')
     rho_m = st.session_state.get('rho_m')
@@ -2327,7 +2327,7 @@ def render_step6():
 
     # --- 3. CALCULS (Utilisation de vos fonctions moteur) ---
     # Calcul de la puissance hydraulique
-    HMT = calculer_HMT_physique(hf_linear, h_m, Z_start, Z_end, p_final_bar, rho_m)
+    HMT = calculer_HMT_physique(hf_linear, h_m, Z_start, Z_end, p_final_val, p_start_val, rho_m)
     p_hyd_kw = pump_hydraulic_power(rho_m, 9.81, Q, h_total)
     
     # Calcul de la puissance à l'arbre
