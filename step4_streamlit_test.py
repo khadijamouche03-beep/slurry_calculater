@@ -1682,7 +1682,7 @@ def render_step4():
                     "Pos. (m)": f"{float(e['x']):.1f}",
                     "Accessory Type": e['label'],
                     "Qty": int(e['quantity']),
-                    "Loss (m)": f"{val_h:.4f}"
+                    "Loss (m)": f"{val_h:.3f}"
                 })
             # 2. Affichage du tableau professionnel (Remplace le Markdown)
             st.dataframe(
