@@ -2281,16 +2281,14 @@ def render_step6():
     h_total = st.session_state.get('h_total')
     rho_m = st.session_state.get('rho_m')
     Q = st.session_state.get('Q') # en m3/h
-    Z_start = float(Z_profile[0])
-    Z_end   = float(Z_profile[-1])
     p_start_val = float(P_profile[0])
     p_final_val = float(P_profile[-1])
     HMT = st.session_state.get('HMT')
     
-    st.session_state['p_start'] = p_start_val
-    st.session_state['p_final'] = p_final_val
-    st.session_state['Z_start'] = Z_start
-    st.session_state['Z_end'] = Z_end
+    p_start_val = st.session_state['p_start'] 
+    p_final_val = st.session_state['p_final'] 
+    Z_start = st.session_state['Z_start'] 
+    Z_end = st.session_state['Z_end'] 
     
     st.markdown("### 📍 Conditions aux extrémités")
     col1, col2, col3, col4 = st.columns(4)
