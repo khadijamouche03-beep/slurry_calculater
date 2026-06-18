@@ -889,7 +889,7 @@ def total_sing(elements, rho_m, Vm_default):
         total += dp_total_item
         
     return total
-def calculer_HMT_physique(hf_linear, h_m, Z_start, Z_end, p_final_bar, rho_m):
+def calculer_HMT_physique(hf_linear, h_m, Z_start, Z_end, p_final_val, p_start_val, rho_m):
     """
     Calcule la HMT totale nécessaire pour vaincre les pertes et le dénivelé.
     """
@@ -900,7 +900,8 @@ def calculer_HMT_physique(hf_linear, h_m, Z_start, Z_end, p_final_bar, rho_m):
     
     # Hauteur associée au dénivelé (Géodésique)
     delta_Z = Z_end - Z_start
-    h_pression_finale = (p_final_bar * 1e5) / (rho_m * g)
+    
+    h_pression_finale = (p_final_val - p_start_val) / (rho_m * g)
     
     # HMT Totale
     HMT = delta_Z + h_total + h_pression_finale
@@ -2288,8 +2289,8 @@ def render_step6():
     Q = st.session_state.get('Q') # en m3/h
     HMT = st.session_state.get('HMT')
     
-    p_start_val = st.session_state['p_start'] 
-    p_final_val = st.session_state['p_final'] 
+    p_start_val = st.session_state['p_start_val'] 
+    p_final_val = st.session_state['p_final_val'] 
     Z_start = st.session_state['Z_start'] 
     Z_end = st.session_state['Z_end'] 
     
