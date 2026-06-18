@@ -847,6 +847,7 @@ def total_sing(elements, rho_m, Vm_default):
     elements: liste de dictionnaires (le panier d'achat).
     """
     total = 0.0
+    
     for e in elements:
         # On calcule la perte pour cet élément (en tenant compte de sa quantité)
         chock_id = e["id"]
@@ -879,7 +880,7 @@ def total_sing(elements, rho_m, Vm_default):
         dp_total_item = dp_unitaire * qty
 
         # On stocke le résultat dans le dictionnaire pour l'affichage tableau
-        h_m_item = dp_total_item / (rho_m * g) if (rho_m * g) > 0 else 0
+        h_m_item = dp_total_item / (rho_m * 9.81) if (rho_m * 9.81) > 0 else 0
         
         e["deltaP_total"] = dp_total_item
         e["h_m_item"] = h_m_item
@@ -2333,15 +2334,6 @@ def render_step6():
             st.session_state.p_final = p_recommended
             st.balloons()
             # Logique pour générer le rapport PDF par exemple
-
-
-
-
-
-
-
-
-  
 
 # À rajouter tout à la fin du fichier
 if st.session_state.current_step == 1:
