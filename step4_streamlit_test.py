@@ -337,7 +337,7 @@ def slurry_dynamic_viscosity(mu_l, Cv):
 
 
 #Critical Velocity & Diameter
-def calculate_critical_velocity_and_diameter(Q, d50, rho_s, rho_l, rho_mf, mu_mf, Cv, mu_s):
+def calculate_critical_velocity_and_diameter(Q, d50, rho_s, rho_l, rho_m, mu_m, Cv, mu_s):
     """
     Arbitrage automatique entre MTI, Durand et Wilson pour trouver 
     le diamètre optimal D et la vitesse critique Vc.
@@ -373,7 +373,7 @@ def calculate_critical_velocity_and_diameter(Q, d50, rho_s, rho_l, rho_mf, mu_mf
            
     else:
         # 2. LOGIQUE DURAND
-        Ar = 4 * g * d_50**3 * rho_mf * abs(rho_s - rho_mf)/(3 * mu_mf**2)
+        Ar = 4 * g * d_50**3 * rho_m * abs(rho_s - rho_m)/(3 * mu_m**2)
         def get_Fl(Ar):
             if Ar > 86000: return  1.35 / math.sqrt(2)
             elif 2690 < Ar < 86000: return (2.35 - 0.088 * math.log(Ar)) / math.sqrt(2)
@@ -389,7 +389,7 @@ def calculate_critical_velocity_and_diameter(Q, d50, rho_s, rho_l, rho_mf, mu_mf
 
         for d in diam_list:
 
-            v_Du = Fl * math.sqrt(2 * g * d * (rho_s - rho_mf)/rho_mf)
+            v_Du = Fl * math.sqrt(2 * g * d * (rho_s - rho_m)/rho_m)
             q_Du = math.pi * (d**2) * v_Du * 3600 / 4
             list_V_Du.append(v_Du)
             list_Q_crit_Du.append(q_Du)
