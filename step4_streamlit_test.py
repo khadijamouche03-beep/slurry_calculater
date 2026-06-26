@@ -908,7 +908,8 @@ def calculer_HMT_physique(hf_linear, h_m, Z_start, Z_end, p_final_val, p_start_v
     
     return HMT
 
-def pump_hydraulic_power(rho_m, g, Q, HMT):
+def pump_hydraulic_power(rho_m, g, st.session_state.Q, HMT):  
+
     """P_hyd = ρ_mgQH  [W]"""
     Q_s = Q / 3600
     g = 9.81
@@ -1162,7 +1163,7 @@ def render_step1():
     with col3:
         with st.expander("🔧  PIPELINE GEOMETRY", expanded=True):
             section_header("Pipe Parameters")
-            st.number_input("Flow Rate Q [m³/h]", key="Q", value=float(st.session_state.Q))
+            st.number_input("Flow Rate Q [m³/h]", key="Q", step=10.0)
             st.number_input("Line Length L [m]", key="pipe_length", value=float(st.session_state.pipe_length))
 
     # Compute derived values
@@ -2328,7 +2329,7 @@ def render_step6():
     # --- 3. CALCULS (Utilisation de vos fonctions moteur) ---
     # Calcul de la puissance hydraulique
     HMT = calculer_HMT_physique(hf_linear, h_m, Z_start, Z_end, p_final_val, p_start_val, rho_m)
-    p_hyd_kw = pump_hydraulic_power(rho_m, 9.81, Q, h_total)
+    p_hyd_kw = pump_hydraulic_power(rho_m, 9.81, st.session_state.Q, h_total)
     
     # Calcul de la puissance à l'arbre
     p_shaft_kw = pump_shaft_power(p_hyd_kw, eta_pump)
