@@ -2307,7 +2307,6 @@ def render_step6():
     if p_final_val < 0.2:
         st.warning(f"⚠️ **Attention :** La pression à l'arrivée ({p_final_val:.3f} bar) est très faible ou négative. Risque de bouchage ou d'arrêt du flux.")
 
-    st.info(f"💾 **Données de l'étude :** Débit = {st.session_state.Q} m³/h | HMT = {h_total:.2f} m | Densité = {rho_m} kg/m³")
 
     st.markdown("---")
 
