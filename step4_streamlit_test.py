@@ -908,7 +908,7 @@ def calculer_HMT_physique(hf_linear, h_m, Z_start, Z_end, p_final_val, p_start_v
     
     return HMT
 
-def pump_hydraulic_power(rho_m, g, st.session_state.Q, HMT):  
+def pump_hydraulic_power(rho_m, g, Q, HMT):  
 
     """P_hyd = ρ_mgQH  [W]"""
     Q_s = Q / 3600
@@ -2287,7 +2287,7 @@ def render_step6():
     h_m = st.session_state.get('h_m')
     h_total = st.session_state.get('h_total')
     rho_m = st.session_state.get('rho_m')
-    Q = st.session_state.get('Q') # en m3/h
+    Q_actuel = st.session_state.get('Q') # en m3/h
     HMT = st.session_state.get('HMT')
     
     p_start_val = st.session_state['p_start_val'] 
@@ -2329,7 +2329,7 @@ def render_step6():
     # --- 3. CALCULS (Utilisation de vos fonctions moteur) ---
     # Calcul de la puissance hydraulique
     HMT = calculer_HMT_physique(hf_linear, h_m, Z_start, Z_end, p_final_val, p_start_val, rho_m)
-    p_hyd_kw = pump_hydraulic_power(rho_m, 9.81, st.session_state.Q, h_total)
+    p_hyd_kw = pump_hydraulic_power(rho_m, 9.81, Q_actuel, h_total)
     
     # Calcul de la puissance à l'arbre
     p_shaft_kw = pump_shaft_power(p_hyd_kw, eta_pump)
